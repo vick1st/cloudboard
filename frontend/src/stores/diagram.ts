@@ -40,6 +40,7 @@ export const useDiagramStore = defineStore('diagram', () => {
       target: connection.target,
       sourceHandle: connection.sourceHandle,
       targetHandle: connection.targetHandle,
+      animated: true,
     }
     edges.value.push(edge)
     return edge
