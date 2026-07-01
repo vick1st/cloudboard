@@ -1,2 +1,36 @@
 # Variaveis
 .env
+.env.*
+!.env.example
+
+# Dependencias
+node_modules/
+frontend/node_modules/
+
+# Build
+dist/
+dist-ssr/
+frontend/dist/
+*.local
+
+# Vite
+.vite/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor / OS
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TypeScript
+*.tsbuildinfo
