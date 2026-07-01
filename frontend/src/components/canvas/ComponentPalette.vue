@@ -10,8 +10,8 @@ function onDragStart(event: DragEvent, type: ArchNodeType): void {
 </script>
 
 <template>
-  <aside class="flex w-56 flex-col gap-2 border-r border-slate-200 bg-white p-4">
-    <h2 class="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+  <aside class="flex w-56 flex-col gap-2 border-r border-border-default bg-surface-default p-4">
+    <h2 class="mb-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
       Componentes
     </h2>
 

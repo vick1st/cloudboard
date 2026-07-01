@@ -1,0 +1,25 @@
+/**
+ * Primitivos.
+ *
+ * Cores: usamos a escala padrão do Tailwind v4 como primitivo (já vem em
+ * oklch, exposta como `--color-{name}-{shade}` pelo próprio
+ * `@import "tailwindcss"` em node_modules/tailwindcss/theme.css). Não
+ * duplicamos aqui pra não sombrear os utilitários nativos (bg-blue-500 etc)
+ * com uma segunda definição da mesma variável.
+ *
+ * Escalas usadas hoje pela camada semântica (ver semantic.css):
+ * blue, slate, emerald, amber, purple, rose, red, white.
+ *
+ * Só declaramos abaixo o que a Tailwind não cobre: escala de z-index —
+ * v4 não tem namespace de tema pra isso, então fica como var solta.
+ */
+:root {
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-toast: 600;
+}

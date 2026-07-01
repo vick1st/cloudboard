@@ -36,7 +36,7 @@ function cancelEditing(): void {
 <template>
   <div
     class="flex min-w-[140px] items-center gap-2 rounded-lg border-2 px-3 py-2 shadow-sm"
-    :class="[config.color, selected ? 'ring-2 ring-blue-500 ring-offset-1' : '']"
+    :class="[config.color, selected ? 'ring-2 ring-action-primary ring-offset-1' : '']"
   >
     <Handle type="target" :position="Position.Left" />
 
