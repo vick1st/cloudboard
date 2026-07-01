@@ -8,6 +8,10 @@
  * as classes utilitárias em runtime, só trocando a variável.
  */
 @theme inline {
+  --color-category-client-bg: var(--color-category-client-bg);
+  --color-category-client-text: var(--color-category-client-text);
+  --color-category-client-border: var(--color-category-client-border);
+
   --color-category-network-bg: var(--color-category-network-bg);
   --color-category-network-text: var(--color-category-network-text);
   --color-category-network-border: var(--color-category-network-border);

@@ -6,6 +6,10 @@
  */
 :root {
   /* Categorias de componente de arquitetura (paleta lateral + nós do canvas) */
+  --color-category-client-bg: var(--color-gray-100);
+  --color-category-client-text: var(--color-gray-700);
+  --color-category-client-border: var(--color-gray-300);
+
   --color-category-network-bg: var(--color-blue-100);
   --color-category-network-text: var(--color-blue-700);
   --color-category-network-border: var(--color-blue-300);
@@ -79,6 +83,10 @@
   --color-action-primary: var(--color-blue-400);
   --color-action-primary-hover: var(--color-blue-300);
   --color-action-primary-subtle: oklch(28% 0.06 255);
+
+  --color-category-client-bg: var(--color-gray-800);
+  --color-category-client-text: var(--color-gray-300);
+  --color-category-client-border: var(--color-gray-600);
 
   --color-category-network-bg: oklch(28% 0.06 255);
   --color-category-network-text: var(--color-blue-300);
