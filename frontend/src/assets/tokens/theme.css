@@ -1,0 +1,64 @@
+/**
+ * Registra os tokens semânticos como namespaces do Tailwind v4, gerando as
+ * classes utilitárias (bg-*, text-*, border-*, ring-*, shadow-*).
+ *
+ * `@theme inline` (em vez de `@theme` puro) mantém a referência viva à CSS
+ * var em vez de resolver pro valor literal em build-time — é o que permite
+ * o dark mode em `semantic.css` (`[data-theme="dark"]`) continuar afetando
+ * as classes utilitárias em runtime, só trocando a variável.
+ */
+@theme inline {
+  --color-category-network-bg: var(--color-category-network-bg);
+  --color-category-network-text: var(--color-category-network-text);
+  --color-category-network-border: var(--color-category-network-border);
+
+  --color-category-compute-bg: var(--color-category-compute-bg);
+  --color-category-compute-text: var(--color-category-compute-text);
+  --color-category-compute-border: var(--color-category-compute-border);
+
+  --color-category-database-bg: var(--color-category-database-bg);
+  --color-category-database-text: var(--color-category-database-text);
+  --color-category-database-border: var(--color-category-database-border);
+
+  --color-category-cache-bg: var(--color-category-cache-bg);
+  --color-category-cache-text: var(--color-category-cache-text);
+  --color-category-cache-border: var(--color-category-cache-border);
+
+  --color-category-queue-bg: var(--color-category-queue-bg);
+  --color-category-queue-text: var(--color-category-queue-text);
+  --color-category-queue-border: var(--color-category-queue-border);
+
+  --color-category-storage-bg: var(--color-category-storage-bg);
+  --color-category-storage-text: var(--color-category-storage-text);
+  --color-category-storage-border: var(--color-category-storage-border);
+
+  --color-action-primary: var(--color-action-primary);
+  --color-action-primary-hover: var(--color-action-primary-hover);
+  --color-action-primary-subtle: var(--color-action-primary-subtle);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-inverse: var(--color-text-inverse);
+
+  --color-surface-default: var(--color-surface-default);
+  --color-surface-subtle: var(--color-surface-subtle);
+
+  --color-border-default: var(--color-border-default);
+  --color-border-strong: var(--color-border-strong);
+  --color-border-focus: var(--color-border-focus);
+
+  --color-feedback-error: var(--color-feedback-error);
+  --color-feedback-error-subtle: var(--color-feedback-error-subtle);
+  --color-feedback-success: var(--color-feedback-success);
+  --color-feedback-success-subtle: var(--color-feedback-success-subtle);
+
+  --shadow-node-selected: var(--shadow-node-selected);
+
+  --z-index-raised: var(--z-raised);
+  --z-index-dropdown: var(--z-dropdown);
+  --z-index-sticky: var(--z-sticky);
+  --z-index-overlay: var(--z-overlay);
+  --z-index-modal: var(--z-modal);
+  --z-index-popover: var(--z-popover);
+  --z-index-toast: var(--z-toast);
+}
