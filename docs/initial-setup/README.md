@@ -24,8 +24,8 @@ Claude Code trabalha em cima do `tasks.md` de cada spec.
 
 ## Stack
 
-Vue 3 + Vite + TypeScript + Tailwind + Vue Flow + Pinia + Supabase.
-Detalhes e justificativas em `PRD.md`.
+Vue 3 + Vite + TypeScript + Tailwind + Vue Flow + Pinia. Persistência via
+`localStorage`, sem backend. Detalhes e justificativas em `PRD.md`.
 
 ## Rodando localmente
 
@@ -34,6 +34,3 @@ cd frontend
 npm install
 npm run dev
 ```
-
-(instruções completas de env vars entram quando o spec 002 — Supabase —
-for implementado)

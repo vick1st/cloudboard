@@ -13,9 +13,9 @@ importa.
 
 ## Fora de escopo deste spec
 
-- Persistência (Supabase entra no spec 002)
-- Documentação Markdown automática (spec 003)
-- Qualquer export
+- Persistência local (localStorage entra no spec 002)
+- Export PNG/JPG/PDF (spec 002)
+- Documentação Markdown automática (v1.5, fora do MVP)
 
 ## User stories
 
