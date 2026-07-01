@@ -48,6 +48,11 @@ npm run build       # build de produção (TypeScript + Vite)
 npm run test:unit   # testes unitários (Vitest)
 ```
 
+## Roadmap
+
+Visão de produto, princípios, stack e próximos passos em
+[docs/ROADMAP.md](docs/ROADMAP.md).
+
 ## Licença
 
 MIT — veja [LICENSE](LICENSE).
