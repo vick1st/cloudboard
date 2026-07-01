@@ -57,8 +57,8 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
       const design: SavedDesign = {
         id: crypto.randomUUID(),
         name: resolvedName,
-        nodes: structuredClone(diagramStore.nodes),
-        edges: structuredClone(diagramStore.edges),
+        nodes: deepClone(diagramStore.nodes),
+        edges: deepClone(diagramStore.edges),
         schemaVersion: 1,
         createdAt: now,
         updatedAt: now,
@@ -70,8 +70,8 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
         design.id === currentDesignId.value
           ? {
               ...design,
-              nodes: structuredClone(diagramStore.nodes),
-              edges: structuredClone(diagramStore.edges),
+              nodes: deepClone(diagramStore.nodes),
+              edges: deepClone(diagramStore.edges),
               updatedAt: now,
             }
           : design,
@@ -102,7 +102,7 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
     const target = savedDesigns.value.find((design) => design.id === id)
     if (!target) return false
 
-    diagramStore.loadDiagram(structuredClone(target.nodes), structuredClone(target.edges))
+    diagramStore.loadDiagram(deepClone(target.nodes), deepClone(target.edges))
     currentDesignId.value = id
     hasUnsavedChanges.value = false
     return true
