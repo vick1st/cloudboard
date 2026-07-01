@@ -8,10 +8,10 @@ conecta esses componentes visualmente, e opcionalmente exporta/documenta o
 resultado. Objetivo duplo:
 
 - **Pessoal:** ferramenta de prática deliberada de system design, sem
-  compromisso de prazo — projeto pra intercalar entre ConstruREI e AstroRider.
+  compromisso de prazo.
 - **Portfólio:** repositório público no GitHub demonstrando frontend
-  avançado (Vue 3 + Vue Flow), modelagem de dados (Postgres via Supabase) e
-  raciocínio de produto (specs, não só código).
+  avançado (Vue 3 + Vue Flow) e raciocínio de produto (specs, não só
+  código).
 
 ## 2. Público-alvo
 
@@ -22,13 +22,14 @@ resultado. Objetivo duplo:
 ## 3. Princípios de projeto (não negociáveis)
 
 1. **Fricção de retomada mínima.** Nada de infra que "cai" quando o projeto
-   fica parado semanas. Sem Docker em produção, sem serviço pra vigiar.
-2. **Frontend-first.** Zero backend próprio no MVP. Supabase resolve
-   persistência + auth anônima + RLS.
-3. **Anônimo por padrão.** UUID em cookie/localStorage identifica a sessão;
-   sem tela de cadastro no MVP.
-4. **Código público desde o início.** Toda decisão de segurança assume que
-   o repo (incluindo `schema.sql`) é público.
+   fica parado semanas. Sem Docker em produção, sem serviço pra vigiar,
+   sem backend próprio.
+2. **Frontend-first, 100% client-side por agora.** Sem Supabase, sem
+   backend, sem conta de usuário no MVP. Persistência via `localStorage`.
+3. **Anônimo por padrão.** Nenhum cadastro. Dado do usuário vive só no
+   navegador dele.
+4. **Código público desde o início.** Toda decisão assume que o repo é
+   público.
 
 ## 4. Escopo do MVP (corte fino — v0)
 
@@ -39,13 +40,17 @@ um spec próprio em `specs/`.
 |---|---------|--------------|
 | 1 | Canvas com Vue Flow, componentes fixos (API Gateway, LB, Service, SQL DB, NoSQL DB, Cache, Queue, CDN, Object Storage) | ✅ |
 | 2 | Arrastar, conectar, renomear nós | ✅ |
-| 3 | Salvar/carregar diagrama (Supabase, vinculado a UUID de sessão) | ✅ |
-| 4 | Geração de documentação Markdown a partir do diagrama | ✅ |
-| 5 | Export PNG/SVG | ❌ (v1.5) |
-| 6 | Auth real (GitHub OAuth) | ❌ (v1.5) |
-| 7 | Ícones AWS/Azure/K8s | ❌ (v2) |
-| 8 | Validação automática de arquitetura (⚠ regras) | ❌ (v3) |
-| 9 | Gerador de arquitetura por prompt (IA) | ❌ (v4) |
+| 3 | Salvar/carregar diagrama em `localStorage` (limite de 10 designs) | ✅ |
+| 4 | Export do diagrama em PNG, JPG e PDF (gated — exige login) | ❌ (v1.5) |
+| 5 | Geração de documentação Markdown a partir do diagrama | ❌ (v1.5) |
+| 6 | Persistência remota (Supabase) + acesso multi-dispositivo | ❌ (v1.5) |
+| 7 | Auth real (GitHub OAuth) | ❌ (v1.5) |
+| 8 | Ícones AWS/Azure/K8s | ❌ (v2) |
+| 9 | Validação automática de arquitetura (⚠ regras) | ❌ (v3) |
+| 10 | Gerador de arquitetura por prompt (IA) | ❌ (v4) |
+
+Export vira feature paga/de conversão: só disponível logado (v1.5, junto
+com Supabase). MVP anônimo desenha e salva local, mas não exporta.
 
 ## 5. Stack
 
@@ -55,39 +60,47 @@ um spec próprio em `specs/`.
 | UI | Tailwind + shadcn-vue | consistência visual rápida |
 | Canvas | Vue Flow | único com suporte real a nós/arestas em Vue |
 | Estado | Pinia | padrão do ecossistema Vue |
-| Persistência | Supabase (Postgres + RLS) | zero backend próprio, sem infra pra manter viva |
+| Persistência | `localStorage` do navegador | zero infra, zero backend, zero conta |
 | Deploy | Vercel (frontend) | free tier, zero manutenção |
 
-Sem Spring Boot, sem Docker Compose, sem Cloud Run neste momento. Fica
-documentado como "evolução futura" (seção 7), não como dívida.
+Export (`html-to-image` + `jsPDF`) e Supabase entram juntos em v1.5,
+atrás de login — não fazem parte da stack do MVP.
+
+Sem Spring Boot, sem Docker Compose, sem Cloud Run, sem Supabase neste
+momento. Fica documentado como "evolução futura" (seção 7), não como
+dívida.
 
 ## 6. Modelo de dados (alto nível)
 
-```sql
--- session_id = UUID gerado no client, sem auth real no MVP
-architectures (
-  id uuid pk,
-  session_id uuid not null,
-  name text not null,
-  nodes jsonb not null default '[]',
-  edges jsonb not null default '[]',
-  created_at timestamptz default now(),
-  updated_at timestamptz default now()
-)
+Sem backend/banco no MVP. Cada design salvo é um registro em
+`localStorage`, chave própria do app, valor um array de até 10 itens:
+
+```ts
+type SavedDesign = {
+  id: string          // uuid gerado no client
+  name: string
+  nodes: Node[]        // formato nativo do Vue Flow
+  edges: Edge[]         // formato nativo do Vue Flow
+  schemaVersion: number // pra migrar formato sem quebrar saves antigos
+  createdAt: string     // ISO
+  updatedAt: string      // ISO
+}
 ```
 
-RLS: `session_id = current_setting('request.jwt.claims')::json->>'session_id'`
-(ou equivalente via header custom — detalhado no spec 001).
+Limite de 10 designs salvos por navegador. Ao atingir o limite, usuário
+precisa apagar um existente antes de salvar novo (sem eviction automática
+— evita perda de dado surpresa).
 
 ## 7. Evolução futura (fora do MVP, sem prazo)
 
-- v1.5: Export PNG/SVG, GitHub OAuth opcional
+- v1.5: Login (GitHub OAuth via Supabase), export PNG/JPG/PDF (gated por
+  login), geração de documentação Markdown, persistência remota
+  multi-dispositivo
 - v2: Ícones de provedores cloud
 - v3: Validação automática de arquitetura (regras tipo "cache sem banco")
 - v4: Gerar arquitetura a partir de prompt em linguagem natural
 - vN: Se algum dia a lógica de validação (v3) ficar pesada demais pro
-  client, aí sim considerar backend Spring Boot próprio — reaproveitando
-  o schema Postgres do Supabase.
+  client, aí sim considerar backend próprio.
 
 ## 8. Critérios de sucesso do MVP
 

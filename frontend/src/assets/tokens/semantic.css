@@ -1,0 +1,109 @@
+/**
+ * Semânticos. Mapeiam primitivos (paleta padrão do Tailwind v4 + z-index de
+ * primitives.css) pra intenção de uso. Componentes Vue só devem consumir
+ * classes utilitárias geradas a partir daqui (ver theme.css) — nunca
+ * `bg-blue-500`/`text-slate-900` direto num componente.
+ */
+:root {
+  /* Categorias de componente de arquitetura (paleta lateral + nós do canvas) */
+  --color-category-network-bg: var(--color-blue-100);
+  --color-category-network-text: var(--color-blue-700);
+  --color-category-network-border: var(--color-blue-300);
+
+  --color-category-compute-bg: var(--color-slate-100);
+  --color-category-compute-text: var(--color-slate-700);
+  --color-category-compute-border: var(--color-slate-300);
+
+  --color-category-database-bg: var(--color-emerald-100);
+  --color-category-database-text: var(--color-emerald-700);
+  --color-category-database-border: var(--color-emerald-300);
+
+  --color-category-cache-bg: var(--color-amber-100);
+  --color-category-cache-text: var(--color-amber-700);
+  --color-category-cache-border: var(--color-amber-300);
+
+  --color-category-queue-bg: var(--color-purple-100);
+  --color-category-queue-text: var(--color-purple-700);
+  --color-category-queue-border: var(--color-purple-300);
+
+  --color-category-storage-bg: var(--color-rose-100);
+  --color-category-storage-text: var(--color-rose-700);
+  --color-category-storage-border: var(--color-rose-300);
+
+  /* Ação / seleção */
+  --color-action-primary: var(--color-blue-500);
+  --color-action-primary-hover: var(--color-blue-600);
+  --color-action-primary-subtle: var(--color-blue-100);
+
+  /* Texto */
+  --color-text-primary: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-text-inverse: var(--color-white);
+
+  /* Superfícies */
+  --color-surface-default: var(--color-white);
+  --color-surface-subtle: var(--color-slate-50);
+
+  /* Bordas */
+  --color-border-default: var(--color-slate-200);
+  --color-border-strong: var(--color-slate-400);
+  --color-border-focus: var(--color-action-primary);
+
+  /* Feedback — ainda não consumido no MVP, mas necessário antes de v1.5
+     trazer forms de login/erros; declarado agora pra não haver retrabalho */
+  --color-feedback-error: var(--color-red-600);
+  --color-feedback-error-subtle: var(--color-red-100);
+  --color-feedback-success: var(--color-emerald-600);
+  --color-feedback-success-subtle: var(--color-emerald-100);
+
+  /* Elevação semântica */
+  --shadow-node-selected: 0 0 0 2px var(--color-action-primary);
+}
+
+/**
+ * Dark mode — ativado via `[data-theme="dark"]` no <html>. Só a camada
+ * semântica muda; primitivos (paleta Tailwind) permanecem intocados.
+ * Categorias mantêm o hue mas invertem pra fundo escuro + texto claro,
+ * senão bg-100/text-700 do modo claro fica ilegível.
+ */
+[data-theme='dark'] {
+  --color-text-primary: var(--color-slate-100);
+  --color-text-secondary: var(--color-slate-400);
+
+  --color-surface-default: var(--color-slate-900);
+  --color-surface-subtle: var(--color-slate-800);
+
+  --color-border-default: var(--color-slate-700);
+  --color-border-strong: var(--color-slate-500);
+
+  --color-action-primary: var(--color-blue-400);
+  --color-action-primary-hover: var(--color-blue-300);
+  --color-action-primary-subtle: oklch(28% 0.06 255);
+
+  --color-category-network-bg: oklch(28% 0.06 255);
+  --color-category-network-text: var(--color-blue-300);
+  --color-category-network-border: var(--color-blue-700);
+
+  --color-category-compute-bg: var(--color-slate-800);
+  --color-category-compute-text: var(--color-slate-300);
+  --color-category-compute-border: var(--color-slate-600);
+
+  --color-category-database-bg: oklch(28% 0.06 163);
+  --color-category-database-text: var(--color-emerald-300);
+  --color-category-database-border: var(--color-emerald-700);
+
+  --color-category-cache-bg: oklch(28% 0.06 80);
+  --color-category-cache-text: var(--color-amber-300);
+  --color-category-cache-border: var(--color-amber-700);
+
+  --color-category-queue-bg: oklch(28% 0.06 310);
+  --color-category-queue-text: var(--color-purple-300);
+  --color-category-queue-border: var(--color-purple-700);
+
+  --color-category-storage-bg: oklch(28% 0.06 17);
+  --color-category-storage-text: var(--color-rose-300);
+  --color-category-storage-border: var(--color-rose-700);
+
+  --color-feedback-error-subtle: oklch(28% 0.08 27);
+  --color-feedback-success-subtle: oklch(28% 0.06 163);
+}
