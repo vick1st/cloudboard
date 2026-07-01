@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { markRaw } from 'vue'
+import { markRaw, onMounted, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { VueFlow, useVueFlow, type Connection, type NodeTypesObject } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
@@ -16,7 +16,7 @@ const { nodes, edges } = storeToRefs(store)
 
 // Nessa versão (1.48.2) a conversão de coordenadas de tela pra flow é feita
 // via `project()`, não `screenToFlowCoordinate` (API de versões mais novas).
-const { project } = useVueFlow()
+const { project, getSelectedNodes, getSelectedEdges } = useVueFlow()
 
 const nodeTypes: NodeTypesObject = { [ARCH_NODE_VIEW_TYPE]: markRaw(ArchNode) }
 
@@ -41,6 +41,26 @@ function onDrop(event: DragEvent): void {
 function onConnect(connection: Connection): void {
   store.addEdge(connection)
 }
+
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false
+  return target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable
+}
+
+function onKeyDown(event: KeyboardEvent): void {
+  if (event.key !== 'Delete' && event.key !== 'Backspace') return
+  if (isEditableTarget(event.target)) return
+
+  for (const node of getSelectedNodes.value) {
+    store.removeNode(node.id)
+  }
+  for (const edge of getSelectedEdges.value) {
+    store.removeEdge(edge.id)
+  }
+}
+
+onMounted(() => window.addEventListener('keydown', onKeyDown))
+onUnmounted(() => window.removeEventListener('keydown', onKeyDown))
 </script>
 
 <template>
