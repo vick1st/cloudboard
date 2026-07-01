@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { markRaw } from 'vue'
 import { storeToRefs } from 'pinia'
-import { VueFlow, useVueFlow, type Connection } from '@vue-flow/core'
+import { VueFlow, useVueFlow, type Connection, type NodeTypesObject } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
 import '@vue-flow/core/dist/style.css'
@@ -19,7 +19,9 @@ const { nodes, edges } = storeToRefs(store)
 // via `project()`, não `screenToFlowCoordinate` (API de versões mais novas).
 const { project } = useVueFlow()
 
-const nodeTypes = { [ARCH_NODE_VIEW_TYPE]: markRaw(ArchNode) }
+// ArchNode.vue tipa suas props com um shape parcial de NodeProps (não o
+// componente inteiro exigido por NodeTypesObject) — cast necessário aqui.
+const nodeTypes = { [ARCH_NODE_VIEW_TYPE]: markRaw(ArchNode) } as unknown as NodeTypesObject
 
 function onDragOver(event: DragEvent): void {
   event.preventDefault()
