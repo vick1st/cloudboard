@@ -63,4 +63,30 @@ describe('diagram store', () => {
     expect(store.nodes.find((n) => n.id === b.id)).toBeUndefined()
     expect(store.edges).toHaveLength(0)
   })
+
+  it('loadDiagram substitui nodes e edges pelos recebidos', () => {
+    const store = useDiagramStore()
+    store.addNode('service', { x: 0, y: 0 })
+
+    const incomingNodes = [
+      { id: 'n1', type: 'archNode' as const, position: { x: 5, y: 5 }, data: { type: 'cache' as const, label: 'Cache' } },
+    ]
+    const incomingEdges = [{ id: 'e1', source: 'n1', target: 'n1' }]
+    store.loadDiagram(incomingNodes, incomingEdges)
+
+    expect(store.nodes).toEqual(incomingNodes)
+    expect(store.edges).toEqual(incomingEdges)
+  })
+
+  it('clear esvazia nodes e edges', () => {
+    const store = useDiagramStore()
+    const a = store.addNode('service', { x: 0, y: 0 })
+    const b = store.addNode('sql-db', { x: 100, y: 0 })
+    store.addEdge({ source: a.id, target: b.id, sourceHandle: null, targetHandle: null })
+
+    store.clear()
+
+    expect(store.nodes).toHaveLength(0)
+    expect(store.edges).toHaveLength(0)
+  })
 })
