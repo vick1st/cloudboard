@@ -25,13 +25,41 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
   const currentDesignId = ref<string | null>(null)
   const hasUnsavedChanges = ref(false)
 
+  // Fingerprint só com os campos que representam "conteúdo do usuário" —
+  // Vue Flow muta os mesmos objetos de node/edge pra guardar bookkeeping
+  // interno (dimensions, selected, dragging, zIndex etc) e re-sincroniza o
+  // array inteiro via v-model, reatribuindo `nodes.value`/`edges.value`
+  // mesmo sem mudança real de conteúdo. Um watch "dispara em qualquer
+  // trigger" pegaria isso como se fosse edição do usuário. Comparar o
+  // fingerprint SERIALIZADO contra o último valor conhecido (em vez de só
+  // reagir a "algo mudou") filtra esses falsos-positivos da lib.
+  function computeFingerprint(): string {
+    return JSON.stringify({
+      nodes: diagramStore.nodes.map((n) => ({
+        id: n.id,
+        type: n.data.type,
+        label: n.data.label,
+        x: n.position.x,
+        y: n.position.y,
+      })),
+      edges: diagramStore.edges.map((e) => ({ id: e.id, source: e.source, target: e.target })),
+    })
+  }
+
+  const lastSyncedFingerprint = ref(computeFingerprint())
+
+  function markSynced(): void {
+    lastSyncedFingerprint.value = computeFingerprint()
+    hasUnsavedChanges.value = false
+  }
+
   // flush: 'sync' garante que o watcher roda antes da action que disparou a
-  // mutação (loadDiagram/clear) continuar — permite corrigir
-  // hasUnsavedChanges pra false logo em seguida, na mesma função síncrona.
+  // mutação (loadDiagram/clear) continuar — permite corrigir via
+  // `markSynced()` logo em seguida, na mesma função síncrona.
   watch(
     () => [diagramStore.nodes, diagramStore.edges],
     () => {
-      hasUnsavedChanges.value = true
+      hasUnsavedChanges.value = computeFingerprint() !== lastSyncedFingerprint.value
     },
     { deep: true, flush: 'sync' },
   )
@@ -84,7 +112,7 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
       return { ok: false, reason: 'storage-error' }
     }
 
-    hasUnsavedChanges.value = false
+    markSynced()
     return { ok: true }
   }
 
@@ -104,7 +132,7 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
 
     diagramStore.loadDiagram(deepClone(target.nodes), deepClone(target.edges))
     currentDesignId.value = id
-    hasUnsavedChanges.value = false
+    markSynced()
     return true
   }
 
@@ -147,7 +175,7 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
 
     diagramStore.clear()
     currentDesignId.value = null
-    hasUnsavedChanges.value = false
+    markSynced()
     return true
   }
 
