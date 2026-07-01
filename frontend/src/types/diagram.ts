@@ -1,6 +1,7 @@
 import type { XYPosition } from '@vue-flow/core'
 
 export type ArchNodeType =
+  | 'client'
   | 'api-gateway'
   | 'load-balancer'
   | 'service'

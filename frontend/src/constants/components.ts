@@ -1,4 +1,5 @@
 import {
+  User,
   Waypoints,
   Split,
   Box,
@@ -14,6 +15,7 @@ import type { FunctionalComponent } from 'vue'
 import type { ArchNodeType } from '../types/diagram'
 
 export type ArchCategory =
+  | 'client'
   | 'network'
   | 'compute'
   | 'database'
@@ -30,6 +32,7 @@ export interface ArchComponentConfig {
 }
 
 export const CATEGORY_COLORS: Record<ArchCategory, string> = {
+  client: 'bg-category-client-bg text-category-client-text border-category-client-border',
   network: 'bg-category-network-bg text-category-network-text border-category-network-border',
   compute: 'bg-category-compute-bg text-category-compute-text border-category-compute-border',
   database: 'bg-category-database-bg text-category-database-text border-category-database-border',
@@ -39,6 +42,13 @@ export const CATEGORY_COLORS: Record<ArchCategory, string> = {
 }
 
 export const ARCH_COMPONENTS: ArchComponentConfig[] = [
+  {
+    type: 'client',
+    label: 'Client',
+    category: 'client',
+    icon: User,
+    color: CATEGORY_COLORS.client,
+  },
   {
     type: 'api-gateway',
     label: 'API Gateway',
