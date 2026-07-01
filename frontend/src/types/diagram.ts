@@ -38,4 +38,5 @@ export interface ArchEdge {
   target: string
   sourceHandle?: string | null
   targetHandle?: string | null
+  animated?: boolean
 }

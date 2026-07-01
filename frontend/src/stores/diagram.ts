@@ -40,6 +40,7 @@ export const useDiagramStore = defineStore('diagram', () => {
       target: connection.target,
       sourceHandle: connection.sourceHandle,
       targetHandle: connection.targetHandle,
+      animated: true,
     }
     edges.value.push(edge)
     return edge
@@ -49,5 +50,25 @@ export const useDiagramStore = defineStore('diagram', () => {
     edges.value = edges.value.filter((e) => e.id !== id)
   }
 
-  return { nodes, edges, addNode, updateNode, removeNode, addEdge, removeEdge }
+  function loadDiagram(newNodes: ArchNode[], newEdges: ArchEdge[]) {
+    nodes.value = newNodes
+    edges.value = newEdges
+  }
+
+  function clear() {
+    nodes.value = []
+    edges.value = []
+  }
+
+  return {
+    nodes,
+    edges,
+    addNode,
+    updateNode,
+    removeNode,
+    addEdge,
+    removeEdge,
+    loadDiagram,
+    clear,
+  }
 })
