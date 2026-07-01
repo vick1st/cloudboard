@@ -12,8 +12,9 @@ dist/
 dist-ssr/
 frontend/dist/
 *.local
-
+.specs
 # Vite
+
 .vite/
 
 # Logs

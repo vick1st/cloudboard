@@ -14,7 +14,7 @@ importa.
 ## Fora de escopo deste spec
 
 - Persistência local (localStorage entra no spec 002)
-- Export PNG/JPG/PDF (spec 002)
+- Export PNG/JPG/PDF (v1.5, gated por login — fora do MVP)
 - Documentação Markdown automática (v1.5, fora do MVP)
 
 ## User stories

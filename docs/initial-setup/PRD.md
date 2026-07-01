@@ -41,13 +41,16 @@ um spec próprio em `specs/`.
 | 1 | Canvas com Vue Flow, componentes fixos (API Gateway, LB, Service, SQL DB, NoSQL DB, Cache, Queue, CDN, Object Storage) | ✅ |
 | 2 | Arrastar, conectar, renomear nós | ✅ |
 | 3 | Salvar/carregar diagrama em `localStorage` (limite de 10 designs) | ✅ |
-| 4 | Export do diagrama em PNG, JPG e PDF | ✅ |
+| 4 | Export do diagrama em PNG, JPG e PDF (gated — exige login) | ❌ (v1.5) |
 | 5 | Geração de documentação Markdown a partir do diagrama | ❌ (v1.5) |
 | 6 | Persistência remota (Supabase) + acesso multi-dispositivo | ❌ (v1.5) |
 | 7 | Auth real (GitHub OAuth) | ❌ (v1.5) |
 | 8 | Ícones AWS/Azure/K8s | ❌ (v2) |
 | 9 | Validação automática de arquitetura (⚠ regras) | ❌ (v3) |
 | 10 | Gerador de arquitetura por prompt (IA) | ❌ (v4) |
+
+Export vira feature paga/de conversão: só disponível logado (v1.5, junto
+com Supabase). MVP anônimo desenha e salva local, mas não exporta.
 
 ## 5. Stack
 
@@ -58,8 +61,10 @@ um spec próprio em `specs/`.
 | Canvas | Vue Flow | único com suporte real a nós/arestas em Vue |
 | Estado | Pinia | padrão do ecossistema Vue |
 | Persistência | `localStorage` do navegador | zero infra, zero backend, zero conta |
-| Export | `html-to-image` (PNG/JPG) + `jsPDF` (PDF) | screenshot do canvas embutido no formato de saída |
 | Deploy | Vercel (frontend) | free tier, zero manutenção |
+
+Export (`html-to-image` + `jsPDF`) e Supabase entram juntos em v1.5,
+atrás de login — não fazem parte da stack do MVP.
 
 Sem Spring Boot, sem Docker Compose, sem Cloud Run, sem Supabase neste
 momento. Fica documentado como "evolução futura" (seção 7), não como
@@ -88,8 +93,9 @@ precisa apagar um existente antes de salvar novo (sem eviction automática
 
 ## 7. Evolução futura (fora do MVP, sem prazo)
 
-- v1.5: Geração de documentação Markdown, persistência remota via
-  Supabase (multi-dispositivo), GitHub OAuth opcional
+- v1.5: Login (GitHub OAuth via Supabase), export PNG/JPG/PDF (gated por
+  login), geração de documentação Markdown, persistência remota
+  multi-dispositivo
 - v2: Ícones de provedores cloud
 - v3: Validação automática de arquitetura (regras tipo "cache sem banco")
 - v4: Gerar arquitetura a partir de prompt em linguagem natural
