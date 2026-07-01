@@ -19,9 +19,7 @@ const { nodes, edges } = storeToRefs(store)
 // via `project()`, não `screenToFlowCoordinate` (API de versões mais novas).
 const { project } = useVueFlow()
 
-// ArchNode.vue tipa suas props com um shape parcial de NodeProps (não o
-// componente inteiro exigido por NodeTypesObject) — cast necessário aqui.
-const nodeTypes = { [ARCH_NODE_VIEW_TYPE]: markRaw(ArchNode) } as unknown as NodeTypesObject
+const nodeTypes: NodeTypesObject = { [ARCH_NODE_VIEW_TYPE]: markRaw(ArchNode) }
 
 function onDragOver(event: DragEvent): void {
   event.preventDefault()
