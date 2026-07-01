@@ -1,5 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ComponentPalette from './components/canvas/ComponentPalette.vue'
+import FlowCanvas from './components/canvas/FlowCanvas.vue'
+</script>
 
 <template>
-  <div id="app" class="flex h-screen w-screen"></div>
+  <div class="flex h-screen w-screen">
+    <ComponentPalette />
+    <div class="min-w-0 flex-1">
+      <FlowCanvas />
+    </div>
+  </div>
 </template>
