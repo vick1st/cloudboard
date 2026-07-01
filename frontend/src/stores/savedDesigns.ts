@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import { useDiagramStore } from './diagram'
 import { readAll, writeAll, isStorageAvailable } from '../services/localStorageDesigns'
 import { MAX_SAVED_DESIGNS, type SavedDesign } from '../types/persistence'
+import type { DiagramTemplate } from '../constants/templates'
 
 export type SaveOutcome =
   | { ok: true }
@@ -136,6 +137,23 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
     return true
   }
 
+  function loadTemplate(
+    template: DiagramTemplate,
+    confirmFn: (message: string) => boolean = window.confirm,
+  ): boolean {
+    if (hasUnsavedChanges.value) {
+      const confirmed = confirmFn(
+        'Você tem mudanças não salvas. Descartar e carregar o exemplo?',
+      )
+      if (!confirmed) return false
+    }
+
+    diagramStore.loadDiagram(deepClone(template.nodes), deepClone(template.edges))
+    currentDesignId.value = null
+    markSynced()
+    return true
+  }
+
   function deleteDesign(
     id: string,
     confirmFn: (message: string) => boolean = window.confirm,
@@ -186,6 +204,7 @@ export const useSavedDesignsStore = defineStore('savedDesigns', () => {
     storageAvailable,
     saveCurrent,
     load,
+    loadTemplate,
     deleteDesign,
     newDiagram,
   }

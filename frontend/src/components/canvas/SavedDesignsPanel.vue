@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Save, FilePlus, Trash2, Inbox, TriangleAlert } from '@lucide/vue'
+import { Save, FilePlus, Trash2, Inbox, TriangleAlert, LayoutTemplate } from '@lucide/vue'
 import { useSavedDesignsStore } from '../../stores/savedDesigns'
+import { DIAGRAM_TEMPLATES, type DiagramTemplate } from '../../constants/templates'
 import type { SavedDesign } from '../../types/persistence'
 
 const store = useSavedDesignsStore()
@@ -42,12 +43,16 @@ function onDelete(design: SavedDesign, event: Event): void {
 function onNewDiagram(): void {
   store.newDiagram()
 }
+
+function onLoadTemplate(template: DiagramTemplate): void {
+  store.loadTemplate(template)
+}
 </script>
 
 <template>
   <aside class="flex w-56 flex-col gap-2 border-l border-border-default bg-surface-default p-4">
     <h2 class="mb-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
-      Meus diagramas
+      Diagramas
     </h2>
 
     <div v-if="!store.storageAvailable" class="flex items-start gap-2 rounded-md border border-category-cache-border bg-category-cache-bg p-2 text-xs text-category-cache-text">
@@ -74,6 +79,26 @@ function onNewDiagram(): void {
           Novo
         </button>
       </div>
+
+      <div class="flex flex-col gap-1.5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-text-secondary">
+          Exemplos
+        </h3>
+        <button
+          v-for="template in DIAGRAM_TEMPLATES"
+          :key="template.id"
+          type="button"
+          class="flex items-center gap-1.5 rounded-md border border-border-default bg-surface-default px-2 py-1.5 text-left text-sm font-medium text-text-primary shadow-sm transition hover:bg-surface-subtle"
+          @click="onLoadTemplate(template)"
+        >
+          <LayoutTemplate class="h-4 w-4 shrink-0" aria-hidden="true" />
+          <span class="truncate">{{ template.name }}</span>
+        </button>
+      </div>
+
+      <h3 class="text-xs font-semibold uppercase tracking-wide text-text-secondary">
+        Salvos
+      </h3>
 
       <div
         v-if="store.savedDesigns.length === 0"
